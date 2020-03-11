@@ -2,8 +2,6 @@ var express = require('express');
 var app = express();
 var AWS = require("aws-sdk");
 
-var responseObject = "";
-
 function onScan(err, data)
 {
 	if (err) 
@@ -18,28 +16,21 @@ function onScan(err, data)
 		{
 			info += (movie.year + ": " + movie.title + "- rating: " + movie.info.rating);
         });
-       
-
-        responseObject = info;
-
-        console.log("response " + responseObject)
-        console.log("info " + info)
-
-        //res.send("Hiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii");       
-        //console.log(info);
+        console.log(info);
 	}
 }
 
 app.get('/', function (req, res) {
 
-    var petObject = {
-         "PetType": "Dog", 
-         "PetName": "Spot", 
-         "image": "placeholder" 
-    }
+    // var petObject = 
+    // {
+    //      "PetType": "Dog", 
+    //      "PetName": "Spot", 
+    //      "image": "placeholder" 
+    // }
 
     GetDataFromDB(res);
-    res.send(JSON.stringify(responseObject))
+
  })
 
 
@@ -54,7 +45,8 @@ app.get('/', function (req, res) {
     var docClient = new AWS.DynamoDB.DocumentClient();
     var table = "Movies";
 
-    var params = {
+    var params = 
+    {
         TableName: table,
         ProjectionExpression: "#yr, title, info.rating",
         FilterExpression: "#yr between :start_yr and :end_yr",
@@ -67,12 +59,24 @@ app.get('/', function (req, res) {
         }
     };
 
-    docClient.scan(params, onScan, res);
+    docClient.scan(params, function(err, data)
+    {
+        if (err) 
+        {
+            console.log("Unable to scan the table. Error JSON:", JSON.stringify(err, null, 2));
+        }
+        else
+        {
+            var info = "";
+            data.Items.forEach(function(movie)
+            {
+                info += (movie.year + ": " + movie.title + "- rating: " + movie.info.rating);
+            });
+
+            res.send(JSON.stringify(info))
+        }
+
+    });
  }
 
 module.exports = app;
-
-
-
-
-
