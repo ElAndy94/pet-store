@@ -1,0 +1,28 @@
+.pet__card__group {
+    display: flex;
+    justify-content: space-evenly;
+    // flex-direction: row;
+
+    .pet__card {
+        background: #424242;
+        max-width: 300px;
+
+        .pet__card--image {
+            background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+            background-size: cover;
+          }
+        
+        mat-card-title, mat-card-subtitle {
+            color: #ffffff;
+        }
+    
+        mat-card-content {
+            color: #ffffff;
+        }
+    }
+}
+  
+  .example-header-image {
+    background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+    background-size: cover;
+  }
