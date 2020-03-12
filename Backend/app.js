@@ -1,70 +1,35 @@
-var express = require('express');
-var app = express();
-var AWS = require("aws-sdk");
+const express = require('express');
+const app = express();
 
-function onScan(err, data) {
-	if (err) {
-		console.log("Unable to scan the table. Error JSON:", JSON.stringify(err, null, 2));
-    } else {
-        var info = "";
+const petRoutes = require('./routes/pets');
 
-		data.Items.forEach(function(movie)
-		{
-			info += (movie.year + ": " + movie.title + "- rating: " + movie.info.rating);
-        });
-        console.log(info);
-	}
-}
+// function onScan(err, data) {
+// 	if (err) {
+// 		console.log("Unable to scan the table. Error JSON:", JSON.stringify(err, null, 2));
+//     } else {
+//         var info = "";
 
-app.get('/', function (req, res) {
+// 		data.Items.forEach(function(movie)
+// 		{
+// 			info += (movie.year + ": " + movie.title + "- rating: " + movie.info.rating);
+//         });
+//         console.log(info);
+// 	}
+// }
 
-    // var petObject = 
-    // {
-    //      "PetType": "Dog", 
-    //      "PetName": "Spot", 
-    //      "image": "placeholder" 
-    // }
+app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader(
+      'Access-Control-Allow-Headers',
+      'Origin, X-Requested-With, Content-Type, Accept, Authorization'
+    );
+    res.setHeader(
+      'Access-Control-Allow-Methods',
+      'GET, POST, PATCH, PUT, DELETE, OPTIONS'
+    );
+    next();
+});
 
-    GetDataFromDB(res);
-})
-
-
-function GetDataFromDB() {
-    AWS.config.region = 'us-east-2'; // Region
-    AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-        IdentityPoolId: 'us-east-2:81d836e6-703a-4d1a-bec1-23f62fa3218c',
-    });
-
-    var docClient = new AWS.DynamoDB.DocumentClient();
-    var table = "Movies";
-
-    var params = {
-        TableName: table,
-        ProjectionExpression: "#yr, title, info.rating",
-        FilterExpression: "#yr between :start_yr and :end_yr",
-        ExpressionAttributeNames: {
-            "#yr": "year",
-        },
-        ExpressionAttributeValues: {
-            ":start_yr": 2001,
-            ":end_yr": 2020 
-        }
-    };
-
-    docClient.scan(params, function(err, data) {
-        if (err) {
-            console.log("Unable to scan the table. Error JSON:", JSON.stringify(err, null, 2));
-        }
-        else {
-            var info = "";
-            data.Items.forEach(function(movie) {
-                info += (movie.year + ": " + movie.title + "- rating: " + movie.info.rating);
-            });
-
-            res.send(JSON.stringify(info))
-        }
-
-    });
-}
+app.use('/api/pets', petRoutes);
 
 module.exports = app;
