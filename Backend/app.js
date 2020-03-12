@@ -2,8 +2,7 @@ var express = require('express');
 var app = express();
 var AWS = require("aws-sdk");
 
-function onScan(err, data)
-{
+function onScan(err, data) {
 	if (err) {
 		console.log("Unable to scan the table. Error JSON:", JSON.stringify(err, null, 2));
     } else {
@@ -27,22 +26,19 @@ app.get('/', function (req, res) {
     // }
 
     GetDataFromDB(res);
-
- })
+})
 
 
 function GetDataFromDB() {
     AWS.config.region = 'us-east-2'; // Region
-    AWS.config.credentials = new AWS.CognitoIdentityCredentials(
-    {
+    AWS.config.credentials = new AWS.CognitoIdentityCredentials({
         IdentityPoolId: 'us-east-2:81d836e6-703a-4d1a-bec1-23f62fa3218c',
     });
 
     var docClient = new AWS.DynamoDB.DocumentClient();
     var table = "Movies";
 
-    var params = 
-    {
+    var params = {
         TableName: table,
         ProjectionExpression: "#yr, title, info.rating",
         FilterExpression: "#yr between :start_yr and :end_yr",
@@ -55,17 +51,13 @@ function GetDataFromDB() {
         }
     };
 
-    docClient.scan(params, function(err, data)
-    {
-        if (err) 
-        {
+    docClient.scan(params, function(err, data) {
+        if (err) {
             console.log("Unable to scan the table. Error JSON:", JSON.stringify(err, null, 2));
         }
-        else
-        {
+        else {
             var info = "";
-            data.Items.forEach(function(movie)
-            {
+            data.Items.forEach(function(movie) {
                 info += (movie.year + ": " + movie.title + "- rating: " + movie.info.rating);
             });
 
@@ -73,6 +65,6 @@ function GetDataFromDB() {
         }
 
     });
- }
+}
 
 module.exports = app;
