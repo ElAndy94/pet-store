@@ -4,12 +4,9 @@ var AWS = require("aws-sdk");
 
 function onScan(err, data)
 {
-	if (err) 
-	{
+	if (err) {
 		console.log("Unable to scan the table. Error JSON:", JSON.stringify(err, null, 2));
-    }
-    else
-    {
+    } else {
         var info = "";
 
 		data.Items.forEach(function(movie)
@@ -34,8 +31,7 @@ app.get('/', function (req, res) {
  })
 
 
- function GetDataFromDB(res)
- {
+function GetDataFromDB() {
     AWS.config.region = 'us-east-2'; // Region
     AWS.config.credentials = new AWS.CognitoIdentityCredentials(
     {
