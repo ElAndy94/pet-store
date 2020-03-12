@@ -3,20 +3,6 @@ const app = express();
 
 const petRoutes = require('./routes/pets');
 
-// function onScan(err, data) {
-// 	if (err) {
-// 		console.log("Unable to scan the table. Error JSON:", JSON.stringify(err, null, 2));
-//     } else {
-//         var info = "";
-
-// 		data.Items.forEach(function(movie)
-// 		{
-// 			info += (movie.year + ": " + movie.title + "- rating: " + movie.info.rating);
-//         });
-//         console.log(info);
-// 	}
-// }
-
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader(
@@ -33,3 +19,18 @@ app.use((req, res, next) => {
 app.use('/api/pets', petRoutes);
 
 module.exports = app;
+
+
+// function onScan(err, data) {
+// 	if (err) {
+// 		console.log("Unable to scan the table. Error JSON:", JSON.stringify(err, null, 2));
+//     } else {
+//         var info = "";
+
+// 		data.Items.forEach(function(movie)
+// 		{
+// 			info += (movie.year + ": " + movie.title + "- rating: " + movie.info.rating);
+//         });
+//         console.log(info);
+// 	}
+// }
