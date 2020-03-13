@@ -2,7 +2,6 @@ import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { map, filter, switchMap } from "rxjs/operators";
 
-import { Album } from "./album.model";
 import { Pet } from "./pet.model";
 
 @Injectable({
@@ -24,8 +23,3 @@ export class PetShopService {
     );
   }
 }
-
-// https://jsonplaceholder.typicode.com/albums
-
-// http://localhost:8081/api/pets
-// https://jsonplaceholder.typicode.com/albums
