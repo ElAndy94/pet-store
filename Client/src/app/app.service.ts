@@ -3,7 +3,6 @@ import { HttpClient } from "@angular/common/http";
 import { map, filter, switchMap } from "rxjs/operators";
 
 import { Album } from "./album.model";
-// const localUrl = "assets/data/smartphone.json";
 
 @Injectable({
   providedIn: "root"
@@ -26,6 +25,8 @@ export class PetShopService {
       );
   }
 }
+
+// https://jsonplaceholder.typicode.com/albums
 
 // http://localhost:8081/api/pets
 // https://jsonplaceholder.typicode.com/albums
