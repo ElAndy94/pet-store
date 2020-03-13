@@ -1,39 +1,36 @@
-import { Injectable } from '@angular/core';
-import { Http, Headers, Response } from '@angular/http';
-// import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-// import { Subject } from 'rxjs/Subject';
-// import 'rxjs/add/operator/map';
-import { map, filter, switchMap } from 'rxjs/operators';
+import { Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+import { map, filter, switchMap } from "rxjs/operators";
 
-@Injectable()
+// const localUrl = "assets/data/smartphone.json";
+
+@Injectable({
+  providedIn: "root"
+})
 export class PetShopService {
-  
-  constructor(private http: Http) {}
+  pets;
+  petsUpdated;
+  constructor(public http: HttpClient) {}
 
-//   getData() {
-//     this.http.get('http://localhost:8081/api/pets').map(
-//         (response: Response) => response.json()
-//     )
-//     .subscribe(
-//     (data) => {
-//         console.log(data);
-//     },
-//     (error) => {
-//         console.log(error);
-//     }
-//     );
-//   }
-
-getPosts() {
-    this.http
-      .get('http://localhost:8081/api/pets')
+  getPets() {
+    // http://localhost:8081/api/pets
+    // https://jsonplaceholder.typicode.com/albums
+    return this.http
+      .get("https://jsonplaceholder.typicode.com/albums")
       .pipe(
         map(data => {
-          return data.map(item => {
-           console.log(item);
-          });
+          console.log(data);
         })
       )
-}
+      .subscribe(transformedPets => {
+        // this.pets = transformedpets;
+        // console.log(this.pets);
+        //console.log(transformedPets);
+        //this.petsUpdated.next([...this.pets]);
+      });
+  }
 
+  // getPetsUpdateListener() {
+  //   return this.petsUpdated.asObservable();
+  // }
 }
