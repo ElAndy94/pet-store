@@ -4,7 +4,7 @@ AWS.config.credentials = new AWS.CognitoIdentityCredentials({
   IdentityPoolId: "us-east-2:81d836e6-703a-4d1a-bec1-23f62fa3218c"
 });
 
-const docClient = new AWS.DynamoDB.DocumentClient();
+const dynamoDB = new AWS.DynamoDB.DocumentClient();
 
 exports.getMovies = (req, res) => {
   const table = "Movies";
@@ -23,7 +23,7 @@ exports.getMovies = (req, res) => {
     }
   };
 
-  docClient.scan(params, (err, data) => {
+  dynamoDB.scan(params, (err, data) => {
     if (err) {
       console.log(
         "Unable to scan the table. Error JSON:",
@@ -31,7 +31,6 @@ exports.getMovies = (req, res) => {
       );
     } else {
       data.Items.forEach(movie => {
-        // Template literals - By setting a string with ` ` you can add variables to the string with ${ variableName }.
         info = {
           Year: movie.year,
           Title: movie.title,
