@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 
 import { PetShopService } from "./app.service";
+import { Album } from "./album.model";
 
 @Component({
   selector: "app-root",
@@ -9,14 +10,13 @@ import { PetShopService } from "./app.service";
 })
 export class AppComponent implements OnInit {
   title: string = "pet-store";
-  pets: any[] = [];
+  pets: Album[] = [];
 
   constructor(public petServices: PetShopService) {}
 
   ngOnInit() {
     this.petServices.getPets().subscribe(items => {
       this.pets = items;
-      // console.log(this.pets);
     });
   }
 }
