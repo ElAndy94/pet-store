@@ -16,6 +16,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.petServices.getPets().subscribe(items => {
+      console.log(items);
       this.pets = items;
     });
   }

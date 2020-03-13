@@ -3,7 +3,6 @@ import { HttpClient } from "@angular/common/http";
 import { map, filter, switchMap } from "rxjs/operators";
 
 import { Album } from "./album.model";
-// const localUrl = "assets/data/smartphone.json";
 
 @Injectable({
   providedIn: "root"
@@ -13,10 +12,11 @@ export class PetShopService {
 
   getPets() {
     return this.http
-      .get<{ album: Album }>("https://jsonplaceholder.typicode.com/albums")
+      .get<{ album: Album }>("http://localhost:8081/api/pets")
       .pipe(
         map(responseData => {
-          const albumArray: Album[] = [];
+          console.log(responseData);
+          const albumArray: any[] = [];
           for (const item in responseData) {
             albumArray.push({ ...responseData[item] });
           }
@@ -25,6 +25,8 @@ export class PetShopService {
       );
   }
 }
+
+// https://jsonplaceholder.typicode.com/albums
 
 // http://localhost:8081/api/pets
 // https://jsonplaceholder.typicode.com/albums
