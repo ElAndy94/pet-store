@@ -13,9 +13,10 @@ export class PetShopService {
 
   getPets() {
     return this.http
-      .get<{ album: Album }>("https://jsonplaceholder.typicode.com/albums")
+      .get<{ album: Album }>("http://127.0.0.1:8081/api/pets")
       .pipe(
         map(responseData => {
+          console.log(responseData);
           const albumArray: Album[] = [];
           for (const item in responseData) {
             albumArray.push({ ...responseData[item] });
