@@ -3,6 +3,7 @@ import { HttpClient } from "@angular/common/http";
 import { map, filter, switchMap } from "rxjs/operators";
 
 import { Album } from "./album.model";
+import { Pet } from "./pet.model";
 
 @Injectable({
   providedIn: "root"
@@ -11,18 +12,16 @@ export class PetShopService {
   constructor(public http: HttpClient) {}
 
   getPets() {
-    return this.http
-      .get<{ album: Album }>("http://127.0.0.1:8081/api/pets")
-      .pipe(
-        map(responseData => {
-          console.log(responseData);
-          const albumArray: Album[] = [];
-          for (const item in responseData) {
-            albumArray.push({ ...responseData[item] });
-          }
-          return albumArray;
-        })
-      );
+    return this.http.get<{ pet: Pet }>("http://127.0.0.1:8081/api/pets").pipe(
+      map(responseData => {
+        console.log(responseData);
+        const petArray: Pet[] = [];
+        for (const item in responseData) {
+          petArray.push({ ...responseData[item] });
+        }
+        return petArray;
+      })
+    );
   }
 }
 
