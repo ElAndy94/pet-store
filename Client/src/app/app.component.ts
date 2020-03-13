@@ -8,13 +8,15 @@ import { PetShopService } from "./app.service";
   styleUrls: ["./app.component.scss"]
 })
 export class AppComponent implements OnInit {
-  title = "pet-store";
-  pets;
+  title: string = "pet-store";
+  pets: any[] = [];
 
   constructor(public petServices: PetShopService) {}
 
   ngOnInit() {
-    this.pets = this.petServices.getPets();
-    // console.log(this.pets);
+    this.petServices.getPets().subscribe(items => {
+      this.pets = items;
+      // console.log(this.pets);
+    });
   }
 }

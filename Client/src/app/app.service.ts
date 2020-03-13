@@ -8,29 +8,24 @@ import { map, filter, switchMap } from "rxjs/operators";
   providedIn: "root"
 })
 export class PetShopService {
-  pets;
-  petsUpdated;
   constructor(public http: HttpClient) {}
 
   getPets() {
-    // http://localhost:8081/api/pets
-    // https://jsonplaceholder.typicode.com/albums
-    return this.http
-      .get("https://jsonplaceholder.typicode.com/albums")
-      .pipe(
-        map(data => {
-          console.log(data);
-        })
-      )
-      .subscribe(transformedPets => {
-        // this.pets = transformedpets;
-        // console.log(this.pets);
-        //console.log(transformedPets);
-        //this.petsUpdated.next([...this.pets]);
-      });
+    return this.http.get("https://jsonplaceholder.typicode.com/albums").pipe(
+      map(responseData => {
+        const albumArray: any[] = [];
+        for (const item in responseData) {
+          albumArray.push({ ...responseData[item] });
+        }
+        return albumArray;
+      })
+    );
   }
 
   // getPetsUpdateListener() {
   //   return this.petsUpdated.asObservable();
   // }
 }
+
+// http://localhost:8081/api/pets
+// https://jsonplaceholder.typicode.com/albums
