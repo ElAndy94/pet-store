@@ -42,7 +42,7 @@ exports.getMovies = (req, res) => {
   //   });
 };
 
-exports.insertPet = async (req, res) => {
+exports.insertPet = (req, res) => {
   var table = "Pets";
 
   var petID =
@@ -70,22 +70,15 @@ exports.insertPet = async (req, res) => {
     }
   };
 
-  await dynamoDB.put(params, err => {
+  dynamoDB.put(params, (err, data) => {
     if (err) {
       console.error(
         "Unable to add item. Error JSON: ",
         JSON.stringify(err, null, 2)
       );
+    } else {
+      return res.send(data);
+      //console.log("Added Item:", JSON.stringify(data, null, 2));
     }
-    return setTimeout(() => {
-      console.log("bam");
-    }, 2000);
-    // } else {
-    // return data;
-    //res.send("Added Item:", JSON.stringify(data, null, 2));
-    // console.log("Added Item:", JSON.stringify(data, null, 2));
-    // }
   });
-  console.log("harri");
-  res.send("it worked?");
 };

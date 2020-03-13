@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+const bodyParser = require("body-parser");
 
 const petRoutes = require("./routes/pets");
 
@@ -15,6 +16,7 @@ app.use((req, res, next) => {
   );
   next();
 });
+app.use(bodyParser.json());
 
 app.use("/api/pets", petRoutes);
 

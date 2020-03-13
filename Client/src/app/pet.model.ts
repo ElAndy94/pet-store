@@ -1,6 +1,6 @@
 export interface Pet {
-  PetID: number;
-  PetBreed: string;
-  PetType: string;
-  Info: object;
+  petID: number;
+  petBreed: string;
+  petType: string;
+  info: object;
 }
