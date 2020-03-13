@@ -12,7 +12,7 @@ var params = {
   KeySchema: [
     { AttributeName: "PetID", KeyType: "HASH" } //Partition key
   ],
-  AttributeDefinitions: [{ AttributeName: "PetID", AttributeType: "N" }],
+  AttributeDefinitions: [{ AttributeName: "PetID", AttributeType: "S" }],
   ProvisionedThroughput: {
     ReadCapacityUnits: 10,
     WriteCapacityUnits: 10
