@@ -41,6 +41,27 @@ exports.getPets = (req, res) => {
   });
 };
 
+exports.getPetById = (req, res) => {
+  // Request example - http://localhost:8081/api/pets/lpaw41nwmjg4p5n3m5fadf
+  params = {
+    TableName: table,
+    Key: {
+      PetID: req.params.id
+    }
+  };
+
+  dynamoDB.get(params, (err, data) => {
+    if (err) {
+      console.log(
+        "Unable to find item. Error JSON:",
+        JSON.stringify(err, null, 2)
+      );
+    } else {
+      return res.send(data);
+    }
+  });
+};
+
 exports.insertPet = (req, res) => {
   let petID =
     Math.random()
@@ -86,20 +107,18 @@ exports.insertPet = (req, res) => {
 };
 
 exports.deletePet = (req, res) => {
-  // let petID = "7ys93f1tjutuq404a3qhtp8u38bz97sv7kb79wrhbo6n";
-  let petID = req.body.id;
   params = {
     TableName: table,
     Key: {
-      PetID: petID
+      PetID: req.body.id
     }
   };
 
   dynamoDB.delete(params, err => {
     if (err) {
-      console.error(`Unable to delete ${petID}`);
+      console.error(`Unable to delete ${req.body.id}`);
     } else {
-      return res.send(`Deleted ${petID}`);
+      return res.send(`Deleted ${req.body.id}`);
     }
   });
 };

@@ -5,6 +5,8 @@ const PetController = require("../controllers/pets");
 
 router.get("", PetController.getPets);
 
+router.get("/:id", PetController.getPetById);
+
 router.post("", PetController.insertPet);
 
 router.delete("", PetController.deletePet);
