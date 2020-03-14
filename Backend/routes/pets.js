@@ -7,6 +7,8 @@ router.get("", PetController.getPets);
 
 router.get("/:id", PetController.getPetById);
 
+router.put("/:id", PetController.updatePet);
+
 router.post("", PetController.insertPet);
 
 router.delete("", PetController.deletePet);

@@ -62,6 +62,33 @@ exports.getPetById = (req, res) => {
   });
 };
 
+exports.updatePet = (req, res) => {
+  params = {
+    TableName: table,
+    Key: {
+      PetID: req.params.id
+    },
+    UpdateExpression: "set PetBreed=:a, PetType=:b, info.age=:r",
+    ExpressionAttributeValues: {
+      ":a": "Chobie",
+      ":b": "Calm",
+      ":r": 20
+    },
+    ReturnValues: "UPDATED_NEW"
+  };
+
+  dynamoDB.update(params, (err, data) => {
+    if (err) {
+      console.error(
+        "Unable to update item. Error JSON:",
+        JSON.stringify(err, null, 2)
+      );
+    } else {
+      return res.send(data);
+    }
+  });
+};
+
 exports.insertPet = (req, res) => {
   let petID =
     Math.random()
