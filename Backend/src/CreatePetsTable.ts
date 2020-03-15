@@ -1,13 +1,12 @@
-var AWS = require("aws-sdk");
+import AWS from "aws-sdk";
 
 AWS.config.region = "us-east-2"; // Region
 AWS.config.credentials = new AWS.CognitoIdentityCredentials({
   IdentityPoolId: "us-east-2:81d836e6-703a-4d1a-bec1-23f62fa3218c"
 });
 
-var dynamoDB = new AWS.DynamoDB();
-
-var params = {
+const dynamoDB = new AWS.DynamoDB();
+const params = {
   TableName: "Pets",
   KeySchema: [
     { AttributeName: "PetID", KeyType: "HASH" } //Partition key
@@ -19,7 +18,7 @@ var params = {
   }
 };
 
-dynamoDB.createTable(params, function(err, data) {
+dynamoDB.createTable(params, (err, data) => {
   if (err) {
     console.log(
       "Unable to create table. Error JSON:",

@@ -1,20 +1,20 @@
-var AWS = require("aws-sdk");
+import AWS from "aws-sdk";
 
 AWS.config.region = "us-east-2"; // Region
 AWS.config.credentials = new AWS.CognitoIdentityCredentials({
   IdentityPoolId: "us-east-2:81d836e6-703a-4d1a-bec1-23f62fa3218c"
 });
 
-var docClient = new AWS.DynamoDB.DocumentClient();
-var table = "Pets";
+const dynamoDB = new AWS.DynamoDB.DocumentClient();
+const table = "Pets";
 
-var petID = 2;
-var petType = "Dog";
-var petBreed = "Pitbull";
-var age = 1;
-var description = "Dangerous";
+const petID = 2;
+const petType = "Dog";
+const petBreed = "Pitbull";
+const age = 1;
+const description = "Dangerous";
 
-var params = {
+const params = {
   TableName: table,
   Item: {
     PetID: petID,
@@ -27,7 +27,7 @@ var params = {
   }
 };
 
-docClient.put(params, function(err, data) {
+dynamoDB.put(params, (err, data) => {
   if (err) {
     console.error(
       "Unable to add item. Error JSON: ",
