@@ -1,4 +1,4 @@
-const AWS = require("aws-sdk");
+import AWS from "aws-sdk";
 
 AWS.config.region = "us-east-2"; // Region
 AWS.config.credentials = new AWS.CognitoIdentityCredentials({
@@ -6,7 +6,6 @@ AWS.config.credentials = new AWS.CognitoIdentityCredentials({
 });
 
 const dynamoDB = new AWS.DynamoDB();
-
 const params = {
   TableName: "Pets",
   KeySchema: [

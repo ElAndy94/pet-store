@@ -1,4 +1,4 @@
-const AWS = require("aws-sdk");
+import AWS from "aws-sdk";
 
 AWS.config.region = "us-east-2"; // Region
 AWS.config.credentials = new AWS.CognitoIdentityCredentials({

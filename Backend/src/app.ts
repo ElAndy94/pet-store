@@ -1,6 +1,6 @@
-const express = require("express");
+import express from "express";
+import bodyParser from "body-parser";
 const app = express();
-const bodyParser = require("body-parser");
 
 const petRoutes = require("./routes/pets");
 

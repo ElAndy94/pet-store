@@ -1,4 +1,5 @@
-const AWS = require("aws-sdk");
+import AWS from "aws-sdk";
+import { Request, Response } from "express";
 AWS.config.region = "us-east-2"; // Region
 AWS.config.credentials = new AWS.CognitoIdentityCredentials({
   IdentityPoolId: "us-east-2:81d836e6-703a-4d1a-bec1-23f62fa3218c"
@@ -6,8 +7,15 @@ AWS.config.credentials = new AWS.CognitoIdentityCredentials({
 const dynamoDB = new AWS.DynamoDB.DocumentClient({ apiVersion: "2012-08-10" });
 const table = "Pets";
 
-exports.getPets = (req, res) => {
-  let infoArray = [];
+// interface Pet {
+//   PetID: string;
+//   PetType: string;
+//   PetBreed: string;
+//   info: { age: number; description: string };
+// }
+
+exports.getPets = (req: Request, res: Response) => {
+  let infoArray: any[] = [];
   const params = {
     TableName: table,
     ProjectionExpression: "#petID, PetBreed, PetType, info.age",
@@ -27,23 +35,24 @@ exports.getPets = (req, res) => {
         JSON.stringify(err, null, 2)
       );
     } else {
-      data.Items.map(pet => {
-        // info = {
-        //   PetID: pet.PetID,
-        //   PetBreed: pet.PetBreed,
-        //   PetType: pet.PetType,
-        //   InfoAge: pet.info.age
-        // };
-        infoArray.push(pet);
-      });
-      res.send(infoArray);
+      if (data.Items) {
+        data.Items.map((pet: any) => {
+          infoArray.push(pet);
+        });
+        return res.send(infoArray);
+      } else {
+        return res.send([]);
+      }
     }
   });
 };
 
-exports.getPetById = (req, res) => {
+exports.getPetById = (
+  req: { params: { id: string } },
+  res: { send: (arg0: AWS.DynamoDB.DocumentClient.GetItemOutput) => void }
+) => {
   // Request example - http://localhost:8081/api/pets/lpaw41nwmjg4p5n3m5fadf
-  params = {
+  const params = {
     TableName: table,
     Key: {
       PetID: req.params.id
@@ -62,8 +71,11 @@ exports.getPetById = (req, res) => {
   });
 };
 
-exports.updatePet = (req, res) => {
-  params = {
+exports.updatePet = (
+  req: { params: { id: string } },
+  res: { send: (arg0: AWS.DynamoDB.DocumentClient.UpdateItemOutput) => void }
+) => {
+  const params = {
     TableName: table,
     Key: {
       PetID: req.params.id
@@ -89,7 +101,17 @@ exports.updatePet = (req, res) => {
   });
 };
 
-exports.insertPet = (req, res) => {
+exports.insertPet = (
+  req: Request,
+  res: {
+    send: (arg0: {
+      PetID: string;
+      PetType: string;
+      PetBreed: string;
+      info: { age: number; description: string };
+    }) => void;
+  }
+) => {
   let petID =
     Math.random()
       .toString(36)
@@ -133,8 +155,11 @@ exports.insertPet = (req, res) => {
   });
 };
 
-exports.deletePet = (req, res) => {
-  params = {
+exports.deletePet = (
+  req: { body: { id: string } },
+  res: { send: (arg0: string) => void }
+) => {
+  const params = {
     TableName: table,
     Key: {
       PetID: req.body.id
