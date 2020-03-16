@@ -1,11 +1,11 @@
-import AWS from "aws-sdk";
-import { Request, Response } from "express";
-AWS.config.region = "us-east-2"; // Region
+import AWS from 'aws-sdk';
+import { Request, Response } from 'express';
+AWS.config.region = 'us-east-2'; // Region
 AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-  IdentityPoolId: "us-east-2:81d836e6-703a-4d1a-bec1-23f62fa3218c"
+  IdentityPoolId: 'us-east-2:81d836e6-703a-4d1a-bec1-23f62fa3218c'
 });
-const dynamoDB = new AWS.DynamoDB.DocumentClient({ apiVersion: "2012-08-10" });
-const table = "Pets";
+const dynamoDB = new AWS.DynamoDB.DocumentClient({ apiVersion: '2012-08-10' });
+const table = 'Pets';
 
 interface Pet {
   PetID: string;
@@ -18,9 +18,9 @@ exports.getPets = (req: Request, res: Response) => {
   let infoArray: Pet[] = [];
   const params = {
     TableName: table,
-    ProjectionExpression: "#petID, PetBreed, PetType, info.age",
+    ProjectionExpression: '#petID, PetBreed, PetType, info.age',
     ExpressionAttributeNames: {
-      "#petID": "PetID"
+      '#petID': 'PetID'
     }
   };
   dynamoDB.scan(params, (err, data) => {
@@ -32,7 +32,7 @@ exports.getPets = (req: Request, res: Response) => {
       return res.send(infoArray);
     } else {
       console.log(
-        "Unable to scan the table. Error JSON:",
+        'Unable to scan the table. Error JSON:',
         JSON.stringify(err, null, 2)
       );
     }
@@ -54,7 +54,7 @@ exports.getPetById = (
   dynamoDB.get(params, (err, data) => {
     if (err) {
       console.log(
-        "Unable to find item. Error JSON:",
+        'Unable to find item. Error JSON:',
         JSON.stringify(err, null, 2)
       );
     } else {
@@ -72,19 +72,19 @@ exports.updatePet = (
     Key: {
       PetID: req.params.id
     },
-    UpdateExpression: "set PetBreed=:a, PetType=:b, info.age=:r",
+    UpdateExpression: 'set PetBreed=:a, PetType=:b, info.age=:r',
     ExpressionAttributeValues: {
-      ":a": "Chobie",
-      ":b": "Calm",
-      ":r": 20
+      ':a': 'Chobie',
+      ':b': 'Calm',
+      ':r': 20
     },
-    ReturnValues: "UPDATED_NEW"
+    ReturnValues: 'UPDATED_NEW'
   };
 
   dynamoDB.update(params, (err, data) => {
     if (err) {
       console.error(
-        "Unable to update item. Error JSON:",
+        'Unable to update item. Error JSON:',
         JSON.stringify(err, null, 2)
       );
     } else {
@@ -117,10 +117,10 @@ exports.insertPet = (
     Math.random()
       .toString(36)
       .substring(2, 15);
-  let petType = "Dog";
-  let petBreed = "Pug";
+  let petType = 'Dog';
+  let petBreed = 'Pug';
   let age = Math.random() * 10;
-  let description = "Safe";
+  let description = 'Safe';
   let params = {
     TableName: table,
     Item: {
@@ -137,7 +137,7 @@ exports.insertPet = (
   dynamoDB.put(params, err => {
     if (err) {
       console.error(
-        "Unable to add item. Error JSON: ",
+        'Unable to add item. Error JSON: ',
         JSON.stringify(err, null, 2)
       );
     } else {

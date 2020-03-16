@@ -1,7 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 
 import { PetShopService } from "./app.service";
-// import { Album } from "./album.model";
 import { Pet } from "./pet.model";
 
 @Component({

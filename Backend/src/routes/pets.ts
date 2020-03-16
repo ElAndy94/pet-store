@@ -1,16 +1,17 @@
-import express from "express";
+import express from 'express';
 const router = express.Router();
 
-const PetController = require("../controllers/pets");
+const PetController = require('../controllers/pets');
 
-router.get("", PetController.getPets);
+router.get('', PetController.getPets);
 
-router.get("/:id", PetController.getPetById);
+router.get('/:id', PetController.getPetById);
 
-router.put("/:id", PetController.updatePet);
+router.put('/:id', PetController.updatePet);
 
-router.post("", PetController.insertPet);
+router.post('', PetController.insertPet);
 
-router.delete("", PetController.deletePet);
+router.delete('', PetController.deletePet);
 
-module.exports = router;
+// module.exports = router;
+export default router;

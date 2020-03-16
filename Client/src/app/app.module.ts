@@ -6,9 +6,6 @@ import { AppComponent } from "./app.component";
 import { HttpClientModule } from "@angular/common/http";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { MatCardModule } from "@angular/material/card";
-// import { MatMenuModule } from "@angular/material/menu";
-// import { MatToolbarModule } from "@angular/material/toolbar";
-// import { MatIcon } from "@angular/material/icon";
 
 @NgModule({
   declarations: [AppComponent],
@@ -18,8 +15,6 @@ import { MatCardModule } from "@angular/material/card";
     HttpClientModule,
     BrowserAnimationsModule,
     MatCardModule
-    // MatToolbarModule,
-    // MatIcon
   ],
   providers: [],
   bootstrap: [AppComponent]
