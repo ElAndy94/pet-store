@@ -1,5 +1,5 @@
 import AWS from 'aws-sdk';
-import { Request, Response } from 'express';
+import { RequestHandler } from 'express';
 AWS.config.region = 'us-east-2'; // Region
 AWS.config.credentials = new AWS.CognitoIdentityCredentials({
   IdentityPoolId: 'us-east-2:81d836e6-703a-4d1a-bec1-23f62fa3218c'
@@ -14,7 +14,7 @@ interface Pet {
   info?: { age: number; description?: string };
 }
 
-exports.getPets = (req: Request, res: Response) => {
+export const getPets: RequestHandler = (req, res) => {
   let infoArray: Pet[] = [];
   const params = {
     TableName: table,
@@ -29,7 +29,8 @@ exports.getPets = (req: Request, res: Response) => {
       items.map(pet => {
         infoArray.push(pet as Pet);
       });
-      return res.send(infoArray);
+      return res.status(201).json({ message: 'Scan Complete', infoArray });
+      // return res.send(infoArray);
     } else {
       console.log(
         'Unable to scan the table. Error JSON:',
@@ -39,7 +40,7 @@ exports.getPets = (req: Request, res: Response) => {
   });
 };
 
-exports.getPetById = (
+export const getPetById = (
   req: { params: { id: string } },
   res: { send: (arg0: AWS.DynamoDB.DocumentClient.GetItemOutput) => void }
 ) => {
@@ -63,7 +64,7 @@ exports.getPetById = (
   });
 };
 
-exports.updatePet = (
+export const updatePet = (
   req: { params: { id: string } },
   res: { send: (arg0: AWS.DynamoDB.DocumentClient.UpdateItemOutput) => void }
 ) => {
@@ -93,8 +94,8 @@ exports.updatePet = (
   });
 };
 
-exports.insertPet = (
-  req: Request,
+export const insertPet: RequestHandler = (
+  req,
   res: {
     send: (arg0: {
       PetID: string;
@@ -147,7 +148,7 @@ exports.insertPet = (
   });
 };
 
-exports.deletePet = (
+export const deletePet = (
   req: { body: { id: string } },
   res: { send: (arg0: string) => void }
 ) => {

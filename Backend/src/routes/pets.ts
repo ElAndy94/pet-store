@@ -1,17 +1,25 @@
-import express from 'express';
-const router = express.Router();
+import { Router } from 'express';
 
-const PetController = require('../controllers/pets');
+const router = Router();
 
-router.get('', PetController.getPets);
+import {
+  getPets,
+  getPetById,
+  updatePet,
+  insertPet,
+  deletePet
+} from '../controllers/pets';
+// const PetController = require('../controllers/pets');
 
-router.get('/:id', PetController.getPetById);
+router.get('', getPets);
 
-router.put('/:id', PetController.updatePet);
+router.get('/:id', getPetById);
 
-router.post('', PetController.insertPet);
+router.put('/:id', updatePet);
 
-router.delete('', PetController.deletePet);
+router.post('', insertPet);
+
+router.delete('', deletePet);
 
 // module.exports = router;
 export default router;

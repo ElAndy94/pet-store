@@ -1,6 +1,6 @@
-const serverApp = require("./app");
+const app = require('./app');
 
-const server = serverApp.listen(8081, () => {
+const server = app.listen(8081, () => {
   //   const host = server.address().address;
   const port = server.address().port;
   console.log(`Server listening at http://${port}`);
