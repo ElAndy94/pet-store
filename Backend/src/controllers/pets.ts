@@ -7,40 +7,34 @@ AWS.config.credentials = new AWS.CognitoIdentityCredentials({
 const dynamoDB = new AWS.DynamoDB.DocumentClient({ apiVersion: "2012-08-10" });
 const table = "Pets";
 
-// interface Pet {
-//   PetID: string;
-//   PetType: string;
-//   PetBreed: string;
-//   info: { age: number; description: string };
-// }
+interface Pet {
+  PetID: string;
+  PetType: string;
+  PetBreed: string;
+  info?: { age: number; description?: string };
+}
 
 exports.getPets = (req: Request, res: Response) => {
-  let infoArray: any[] = [];
+  let infoArray: Pet[] = [];
   const params = {
     TableName: table,
     ProjectionExpression: "#petID, PetBreed, PetType, info.age",
-    // FilterExpression: "#PetBreed between :start_yr and :end_yr",
     ExpressionAttributeNames: {
       "#petID": "PetID"
     }
-    // ExpressionAttributeValues: {
-    //   ":start_yr": 2001,
-    //   ":end_yr": 2020
-    // }
   };
   dynamoDB.scan(params, (err, data) => {
-    if (err) {
+    const items = data.Items;
+    if (items) {
+      items.map(pet => {
+        infoArray.push(pet as Pet);
+      });
+      return res.send(infoArray);
+    } else {
       console.log(
         "Unable to scan the table. Error JSON:",
         JSON.stringify(err, null, 2)
       );
-    } else {
-      if (data.Items) {
-        data.Items.map((pet: any) => {
-          infoArray.push(pet);
-        });
-        return res.send(infoArray);
-      }
     }
   });
 };
