@@ -40,8 +40,6 @@ exports.getPets = (req: Request, res: Response) => {
           infoArray.push(pet);
         });
         return res.send(infoArray);
-      } else {
-        return res.send([]);
       }
     }
   });
